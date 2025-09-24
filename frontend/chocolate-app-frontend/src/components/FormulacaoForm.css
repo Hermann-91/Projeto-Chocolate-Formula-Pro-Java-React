@@ -1,0 +1,146 @@
+.form-container {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border: 1px solid #e9ecef;
+}
+
+.form-title {
+  color: #4a2c1d;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #495057;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.section-title {
+  color: #6c757d;
+  margin: 25px 0 15px 0;
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 5px;
+}
+
+.ingrediente-bloco {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.ingrediente-nome {
+  flex: 2;
+}
+
+.ingrediente-porcentagem {
+  flex: 1;
+}
+
+.btn-remover {
+  background: #f7a3ab;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn-remover:hover {
+  background: #c82333;
+}
+
+.form-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px 0;
+  transition: background-color 0.3s;
+}
+
+.form-button.primary {
+  background: #28a745;
+  color: white;
+}
+
+.form-button.primary:hover:not(:disabled) {
+  background: #218838;
+}
+
+.form-button.primary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.form-button.secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.form-button.secondary:hover {
+  background: #5a6268;
+}
+
+.porcentagem-info {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 15px 0;
+  border-left: 4px solid #007bff;
+}
+
+.erro-porcentagem {
+  color: #df7680;
+  margin: 5px 0 0 0;
+  font-size: 14px;
+}
+
+.sucesso-porcentagem {
+  color: #28a745;
+  margin: 5px 0 0 0;
+  font-size: 14px;
+}
+
+.resultado-lista {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  list-style: none;
+}
+
+.resultado-lista li {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 5px;
+}
+
+.resultado-lista li:last-child {
+  border-bottom: none;
+}

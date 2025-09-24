@@ -1,0 +1,59 @@
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 30px;
+  background: #4a2c1d;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.control-buttons {
+  margin: 15px 0;
+}
+
+.btn {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-primary { 
+  background: #007bff; 
+  color: white; 
+}
+
+.btn-secondary { 
+  background: #6c757d; 
+  color: white; 
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.loading-message {
+  background: #d1ecf1;
+  color: #0c5460;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+hr {
+  margin: 30px 0;
+  border: 1px solid #ddd;
+}

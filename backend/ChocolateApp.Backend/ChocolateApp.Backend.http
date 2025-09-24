@@ -1,0 +1,6 @@
+@ChocolateApp.Backend_HostAddress = http://localhost:5035
+
+GET {{ChocolateApp.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

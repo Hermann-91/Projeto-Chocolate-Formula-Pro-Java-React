@@ -1,0 +1,19 @@
+import React from 'react';
+
+function ListaFormulacoes({ formulacoes }) {
+  return (
+    <div style={{ padding: '20px' }}>
+      <h2>Minhas Formulações</h2>
+      <ul>
+        {formulacoes.map((form, index) => (
+          <li key={index}>
+            <strong>{form.nome}</strong> — {form.quantidade}kg<br />
+            Ingredientes: {form.ingredientes.map(ing => `${ing.nome} (${ing.gramas}g)`).join(', ')}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default ListaFormulacoes;
