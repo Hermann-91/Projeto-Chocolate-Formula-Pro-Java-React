@@ -14,6 +14,9 @@ COPY gradlew gradlew.bat ./
 # Copia o código-fonte da aplicação
 COPY src ./src
 
+# ✅ CORREÇÃO: Dá permissão de execução ao script do Gradle antes de usá-lo.
+RUN chmod +x ./gradlew
+
 # Executa o comando de build do Gradle para gerar o arquivo .jar
 # Usamos -x test para pular os testes durante o deploy
 RUN ./gradlew build -x test --no-daemon
