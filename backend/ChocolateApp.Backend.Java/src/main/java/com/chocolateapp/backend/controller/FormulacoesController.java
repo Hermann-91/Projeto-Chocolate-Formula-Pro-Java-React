@@ -21,7 +21,8 @@ import com.chocolateapp.backend.repository.FormulacaoRepository;
 
 @RestController
 @RequestMapping("/api/Formulacoes")
-@CrossOrigin(origins = "http://localhost:3000")
+// ✅ CORREÇÃO FINAL: Permite pedidos do seu site online e do ambiente local.
+@CrossOrigin(origins = {"http://localhost:3000", "https://produtostops.online"})
 public class FormulacoesController {
 
     private final FormulacaoRepository formulacaoRepository;
