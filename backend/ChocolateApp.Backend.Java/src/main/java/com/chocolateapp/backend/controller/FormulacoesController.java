@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping; // Importação adicionada
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,6 @@ import com.chocolateapp.backend.repository.FormulacaoRepository;
 
 @RestController
 @RequestMapping("/api/Formulacoes")
-// ✅ CORREÇÃO FINAL: Permite pedidos do seu site online e do ambiente local.
 @CrossOrigin(origins = {"http://localhost:3000", "https://produtostops.online"})
 public class FormulacoesController {
 
@@ -40,7 +40,7 @@ public class FormulacoesController {
             return ResponseEntity.ok(formulacoes);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                               .body(null);
+                                  .body(null);
         }
     }
 
@@ -53,23 +53,17 @@ public class FormulacoesController {
     }
 
     // POST: api/Formulacoes
-    @PostMapping // ✅ Verifica se esta anotação está presente!
+    @PostMapping
     public ResponseEntity<?> createFormulacao(@RequestBody Formulacao formulacao) {
-        if (formulacao == null) {
-            return ResponseEntity.badRequest().body("Dados da formulação são obrigatórios");
-        }
-        if (formulacao.getNome() == null || formulacao.getNome().isEmpty()) {
-            return ResponseEntity.badRequest().body("Nome é obrigatório");
+        if (formulacao == null || formulacao.getNome() == null || formulacao.getNome().isEmpty()) {
+            return ResponseEntity.badRequest().body("Nome da formulação é obrigatório.");
         }
         if (formulacao.getIngredientes() == null || formulacao.getIngredientes().isEmpty()) {
-            return ResponseEntity.badRequest().body("Adicione pelo menos um ingrediente");
+            return ResponseEntity.badRequest().body("Adicione pelo menos um ingrediente.");
         }
         
         // Garante a ligação bidirecional para o JPA
         for (Ingrediente ingrediente : formulacao.getIngredientes()) {
-            if (ingrediente.getNome() == null || ingrediente.getNome().isEmpty()) {
-                return ResponseEntity.badRequest().body("Nome do ingrediente é obrigatório");
-            }
             ingrediente.setFormulacao(formulacao);
         }
 
@@ -78,7 +72,45 @@ public class FormulacoesController {
             return ResponseEntity.status(HttpStatus.CREATED).body(createdFormulacao);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("Erro ao salvar formulação: " + ex.getMessage());
+                                  .body("Erro ao salvar formulação: " + ex.getMessage());
+        }
+    }
+
+    // ========================================================================
+    // ✅ NOVO MÉTODO ADICIONADO: UPDATE (PUT)
+    // ========================================================================
+    // PUT: api/Formulacoes/5
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateFormulacao(@PathVariable Integer id, @RequestBody Formulacao formulacaoDetails) {
+        Optional<Formulacao> optionalFormulacao = formulacaoRepository.findById(id);
+
+        if (optionalFormulacao.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Formulacao existingFormulacao = optionalFormulacao.get();
+
+        // Atualiza os campos da formulação
+        existingFormulacao.setNome(formulacaoDetails.getNome());
+        existingFormulacao.setQuantidadeTotalKg(formulacaoDetails.getQuantidadeTotalKg());
+
+        // Remove os ingredientes antigos
+        existingFormulacao.getIngredientes().clear();
+
+        // Adiciona os novos ingredientes e mantém a relação bidirecional
+        if (formulacaoDetails.getIngredientes() != null) {
+            for (Ingrediente ingrediente : formulacaoDetails.getIngredientes()) {
+                ingrediente.setFormulacao(existingFormulacao);
+                existingFormulacao.getIngredientes().add(ingrediente);
+            }
+        }
+
+        try {
+            Formulacao updatedFormulacao = formulacaoRepository.save(existingFormulacao);
+            return ResponseEntity.ok(updatedFormulacao);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                  .body("Erro ao atualizar formulação: " + ex.getMessage());
         }
     }
 
@@ -93,8 +125,22 @@ public class FormulacoesController {
         }
     }
     
+    // ========================================================================
+    // ✅ NOVO MÉTODO ADICIONADO: HEALTH CHECK
+    // ========================================================================
+    // GET: api/Formulacoes/health
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        try {
+            long count = formulacaoRepository.count(); // Consulta simples e rápida
+            return ResponseEntity.ok("Status: OK. Formulacoes count: " + count);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Status: ERRO. Falha ao conectar ao banco: " + e.getMessage());
+        }
+    }
+
     // POST: api/Formulacoes/seed (Para criar dados de teste)
-    @PostMapping("/seed") // ✅ Verifica se esta anotação está presente!
+    @PostMapping("/seed")
     public ResponseEntity<String> seedData() {
         if (formulacaoRepository.count() > 0) {
             return ResponseEntity.ok("Já existem dados no banco");
@@ -120,7 +166,7 @@ public class FormulacoesController {
         }
     }
 
-    // Método auxiliar para criar ingredientes (Java não permite criar dentro da lista diretamente)
+    // Método auxiliar para criar ingredientes
     private Ingrediente createIngrediente(String nome, double porcentagem, double gramas, Formulacao formulacao) {
         Ingrediente i = new Ingrediente();
         i.setNome(nome);
