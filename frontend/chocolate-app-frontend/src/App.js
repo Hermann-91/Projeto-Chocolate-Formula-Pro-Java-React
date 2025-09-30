@@ -4,7 +4,7 @@ import FormulacaoForm from './components/FormulacaoForm';
 import ListaFormulacoes from './components/ListaFormulacoes';
 
 // ✅ URL correta do backend
-const API_BASE_URL = 'http://localhost:5035/api/Formulacoes';
+const API_BASE_URL = 'http://localhost:8080/api/Formulacoes';
 
 function App() {
   const [formulacoes, setFormulacoes] = useState([]);
